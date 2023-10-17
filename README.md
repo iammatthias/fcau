@@ -8,8 +8,6 @@ FCAU (Farcaster Archive Utility) is a CLI tool designed to manage and archive me
 
 - Query the Farcaster API using a username
 - Save query results to a JSON file
-- Schedule recurring queries via cron jobs
-- Customize cron frequency: every 10 minutes, every hour, or every day
 
 ## Installation
 
@@ -36,16 +34,6 @@ npx fcau init
 - `-u, --username [username]`: Specify the username to query. If not provided, you will be prompted.
 - `-c, --cron`: Schedule a cron job for this query.
 
-#### Schedule Command
-
-Schedule a cron job to regularly update the archive of a user's messages.
-
-```bash
-npx fcau schedule
-```
-
-No options required.
-
 #### Update Command
 
 Update an existing archive of a user's messages.
@@ -63,20 +51,6 @@ Display help for any command.
 ```bash
 npx fcau help [COMMAND]
 ```
-
-**Options:**
-
-- `-n, --nested-commands`: Include all nested commands in the output.
-
-### Cron Job Scheduling
-
-If you opt to schedule a cron job using the `init` command, you'll be prompted to specify the frequency:
-
-- Every 10 minutes
-- Every hour
-- Every day
-
-The cron job will be tagged with `fcau` and the username for easy identification.
 
 ## Contribution and Issues
 

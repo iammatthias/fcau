@@ -38,8 +38,6 @@
     <ul>
       <li>Query the Farcaster API using a username</li>
       <li>Save query results to a JSON file</li>
-      <li>Schedule recurring queries via cron jobs</li>
-      <li>Customize cron frequency: every 10 minutes, every hour, or every day</li>
     </ul>
 
     <h2 id="installation">Installation</h2>
@@ -69,15 +67,6 @@
       <li><code>-c, --cron</code>: Schedule a cron job for this query.</li>
     </ul>
 
-    <h4 id="schedule-command">Schedule Command</h4>
-
-    <p>Schedule a cron job to regularly update the archive of a user's messages.</p>
-
-    <pre><code class="bash">npx fcau schedule
-  </code></pre>
-
-    <p>No options required.</p>
-
     <h4 id="update-command">Update Command</h4>
 
     <p>Update an existing archive of a user's messages.</p>
@@ -93,27 +82,6 @@
 
     <pre><code class="bash">npx fcau help [COMMAND]
   </code></pre>
-
-    <p><strong>Options:</strong></p>
-
-    <ul>
-      <li><code>-n, --nested-commands</code>: Include all nested commands in the output.</li>
-    </ul>
-
-    <h3 id="cron-job-scheduling">Cron Job Scheduling</h3>
-
-    <p>
-      If you opt to schedule a cron job using the <code>init</code> command, you'll be prompted to specify the
-      frequency:
-    </p>
-
-    <ul>
-      <li>Every 10 minutes</li>
-      <li>Every hour</li>
-      <li>Every day</li>
-    </ul>
-
-    <p>The cron job will be tagged with <code>fcau</code> and the username for easy identification.</p>
 
     <h2 id="contribution-and-issues">Contribution and Issues</h2>
 

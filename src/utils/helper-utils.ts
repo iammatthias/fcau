@@ -1,7 +1,7 @@
+import * as fs from 'node:fs'
 import inquirer from 'inquirer'
 import {exec} from 'node:child_process'
 
-import {scheduleCronJob} from './cron-utils.js'
 import {queryMessages} from './query-utils.js'
 
 export async function selectFile(files: string[]): Promise<string> {
@@ -16,56 +16,14 @@ export async function selectFile(files: string[]): Promise<string> {
   return selectedFile
 }
 
-export async function scheduleCronJobForUser(taskName: string): Promise<void> {
-  const {cronFrequency} = await inquirer.prompt([
-    {
-      choices: ['every 1 minute', 'every 10 minutes', 'every hour', 'every day', 'disable'],
-      message: 'Select cron frequency:',
-      name: 'cronFrequency',
-      type: 'list',
-    },
-  ])
+export async function updateMessagesForUser(fid: number, filePath: string, pageSize: number): Promise<void> {
+  const data = await queryMessages(fid, filePath, pageSize)
 
-  const {notifyCompletion} = await inquirer.prompt([
-    {
-      message: 'Do you want to be notified when the job is complete?',
-      name: 'notifyCompletion',
-      type: 'confirm',
-    },
-  ])
-
-  let notifyFlag = ''
-  if (notifyCompletion) {
-    notifyFlag = ' --notify'
+  if (data !== undefined) {
+    // Write the data to the file
+    fs.writeFileSync(filePath, JSON.stringify(data))
+    console.log(`Data updated in ${filePath}`)
+  } else {
+    console.log('There was an error talking to the hub. Please try again later.')
   }
-
-  scheduleCronJob(cronFrequency, `fcau update${notifyFlag}`, taskName)
 }
-
-export async function updateMessagesForUser(fid: number, filePath: string): Promise<void> {
-  await queryMessages(fid, filePath, 100)
-  console.log(`Data updated in ${filePath}`)
-}
-
-export const checkExistingCronJob = (taskName: string): Promise<boolean> =>
-  new Promise((resolve) => {
-    if (process.platform === 'win32') {
-      // Windows Task Scheduler check
-      exec(`schtasks /query /tn "${taskName}"`, (error, stdout) => {
-        if (error) {
-          resolve(false)
-        } else {
-          resolve(stdout.includes(taskName))
-        }
-      })
-    } else {
-      // Unix-based (Linux, MacOS) cron check
-      exec(`crontab -l | grep -c "${taskName}"`, (error, stdout) => {
-        if (error) {
-          resolve(false)
-        } else {
-          resolve(Number.parseInt(stdout, 10) > 0)
-        }
-      })
-    }
-  })

@@ -25,7 +25,7 @@ export default class UpdateCommand extends Command {
     const selectedFile = await selectFile(files)
     const fid = this.extractFIDFromFilename(selectedFile)
     if (fid) {
-      await updateMessagesForUser(fid, path.join(os.homedir(), selectedFile))
+      await updateMessagesForUser(fid, path.join(os.homedir(), selectedFile), 100)
     }
   }
 }
