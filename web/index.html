@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>FCAU</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <h1 id="fcau-farcaster-command-line-utility">FCAU - Farcaster Command-line Utility</h1>
+
+    <h2 id="overview">Overview</h2>
+
+    <p>FCAU (Farcaster Archive Utility) is a CLI tool designed to archive messages on the Farcaster protocol.</p>
+
+    <h2 id="features">Features</h2>
+
+    <ul>
+      <li>Query the Farcaster API using a username</li>
+      <li>Save query results to a JSON file</li>
+      <li>Schedule recurring queries via cron jobs</li>
+      <li>Customize cron frequency: every 10 minutes, every hour, or every day</li>
+    </ul>
+
+    <h2 id="installation">Installation</h2>
+
+    <p>You don't need to install this package globally. Use <code>npx</code> to run it without installation:</p>
+
+    <pre><code class="bash">npx fcau
+  </code></pre>
+
+    <h2 id="usage">Usage</h2>
+
+    <h3 id="available-commands-and-options">Available Commands and Options</h3>
+
+    <h4 id="init-command">Init Command</h4>
+
+    <p>Perform an initial archive of a user's messages.</p>
+
+    <pre><code class="bash">npx fcau init
+  </code></pre>
+
+    <p><strong>Options:</strong></p>
+
+    <ul>
+      <li>
+        <code>-u, --username [username]</code>: Specify the username to query. If not provided, you will be prompted.
+      </li>
+      <li><code>-c, --cron</code>: Schedule a cron job for this query.</li>
+    </ul>
+
+    <h4 id="schedule-command">Schedule Command</h4>
+
+    <p>Schedule a cron job to regularly update the archive of a user's messages.</p>
+
+    <pre><code class="bash">npx fcau schedule
+  </code></pre>
+
+    <p>No options required.</p>
+
+    <h4 id="update-command">Update Command</h4>
+
+    <p>Update an existing archive of a user's messages.</p>
+
+    <pre><code class="bash">npx fcau update
+  </code></pre>
+
+    <p>No options required.</p>
+
+    <h4 id="help-command">Help Command</h4>
+
+    <p>Display help for any command.</p>
+
+    <pre><code class="bash">npx fcau help [COMMAND]
+  </code></pre>
+
+    <p><strong>Options:</strong></p>
+
+    <ul>
+      <li><code>-n, --nested-commands</code>: Include all nested commands in the output.</li>
+    </ul>
+
+    <h3 id="cron-job-scheduling">Cron Job Scheduling</h3>
+
+    <p>
+      If you opt to schedule a cron job using the <code>init</code> command, you'll be prompted to specify the
+      frequency:
+    </p>
+
+    <ul>
+      <li>Every 10 minutes</li>
+      <li>Every hour</li>
+      <li>Every day</li>
+    </ul>
+
+    <p>The cron job will be tagged with <code>fcau</code> and the username for easy identification.</p>
+
+    <h2 id="contribution-and-issues">Contribution and Issues</h2>
+
+    <p>Feel free to contribute or report issues via this project's <a href="#">GitHub repository</a>.</p>
+
+    <h2 id="license">License</h2>
+
+    <p>MIT</p>
+  </body>
+</html>

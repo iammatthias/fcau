@@ -80,7 +80,7 @@ The cron job will be tagged with `fcau` and the username for easy identification
 
 ## Contribution and Issues
 
-Feel free to contribute or report issues via this project's [GitHub repository](#).
+Feel free to contribute or report issues via this project's [GitHub repository](https://github.com/iammatthias/fcau).
 
 ## License
 
