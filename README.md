@@ -11,7 +11,7 @@ FCAU (Farcaster Archive Utility) is a CLI tool designed to manage and archive me
 
 ## Installation
 
-You don't need to install this package globally. Use `npx` to run it without installation:
+Use `npx` to quickly run it:
 
 ```bash
 npx fcau
@@ -32,7 +32,6 @@ npx fcau init
 **Options:**
 
 - `-u, --username [username]`: Specify the username to query. If not provided, you will be prompted.
-- `-c, --cron`: Schedule a cron job for this query.
 
 #### Update Command
 
