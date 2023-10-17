@@ -1,3 +1,15 @@
+/* Reset and Global Styles */
+html,
+body,
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
 html {
   height: 100%;
   width: 100%;
@@ -6,9 +18,61 @@ html {
 body {
   background-color: #f0f0f0;
   color: #333;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-size: 18px;
+  line-height: 1.6;
   max-width: 600px;
+  margin: auto;
   padding: 16px;
+}
+
+/* Headers */
+h1,
+h2,
+h3 {
+  margin-bottom: 16px;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+h3 {
+  font-size: 1.3em;
+}
+
+/* Paragraphs */
+p {
+  margin-bottom: 16px;
+}
+
+/* Links */
+a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dotted;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Code Blocks and Inline Code */
+code,
+pre {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  background-color: #eee;
+  padding: 2px 4px;
+}
+
+pre {
+  padding: 16px;
+  overflow-x: auto;
 }
 
 /* Automatic Dark Mode */
@@ -16,5 +80,10 @@ body {
   body {
     background-color: #1a1a1a;
     color: #d1d1d1;
+  }
+
+  code,
+  pre {
+    background-color: #333;
   }
 }
