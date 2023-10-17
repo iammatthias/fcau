@@ -1,8 +1,76 @@
-import * as fs from 'node:fs'
 import inquirer from 'inquirer'
-import {exec} from 'node:child_process'
+import * as fs from 'node:fs'
+import fetch from 'node-fetch'
 
-import {queryMessages} from './query-utils.js'
+interface Data {
+  messages: any[]
+  nextPageToken: null | string
+}
+
+export async function queryApi(username: string): Promise<null | number> {
+  const url = `https://nemes.farcaster.xyz:2281/v1/userNameProofByName?name=${username}`
+  try {
+    const response = await fetch(url)
+    const data = (await response.json()) as {fid: number}
+    return data.fid || null
+  } catch (error) {
+    console.error('Fetch failed:', error)
+    return null
+  }
+}
+
+/* eslint-disable no-await-in-loop */
+export async function queryMessages(fid: number, filePath: string, pageSize: number) {
+  let nextPageToken: null | string = null
+
+  let existingMessages: any[] = []
+  const existingHashes = new Set()
+
+  if (fs.existsSync(filePath)) {
+    existingMessages = JSON.parse(fs.readFileSync(filePath, 'utf8')).messages || []
+    existingMessages.forEach((msg) => existingHashes.add(msg.hash))
+  }
+
+  do {
+    let url = `https://nemes.farcaster.xyz:2281/v1/castsByFid?reverse=1&pageSize=${pageSize}&fid=${fid}`
+    if (nextPageToken) {
+      url += `&pageToken=${nextPageToken}`
+    }
+
+    try {
+      const response = await fetch(url)
+      const data = (await response.json()) as Data
+      let newMessages = data.messages
+
+      let newDataAdded = false
+      for (const message of newMessages) {
+        if (existingHashes.has(message.hash)) {
+          console.log('Data is up to date. Exiting.')
+          return
+        }
+        existingMessages.unshift(message)
+        existingHashes.add(message.hash)
+        newDataAdded = true
+      }
+
+      if (!newDataAdded) {
+        console.log('No new data added. Exiting.')
+        return
+      }
+
+      nextPageToken = data.nextPageToken || null
+    } catch (error) {
+      console.error('Fetch in queryMessages failed:', error)
+      return
+    }
+  } while (nextPageToken !== null)
+
+  existingMessages.sort((a, b) => b.timestamp - a.timestamp)
+
+  fs.writeFileSync(filePath, JSON.stringify({messages: existingMessages}))
+  console.log(`All pages have been processed and results written to ${filePath}`)
+}
+/* eslint-enable no-await-in-loop */
 
 export async function selectFile(files: string[]): Promise<string> {
   const {selectedFile} = await inquirer.prompt([
@@ -17,13 +85,5 @@ export async function selectFile(files: string[]): Promise<string> {
 }
 
 export async function updateMessagesForUser(fid: number, filePath: string, pageSize: number): Promise<void> {
-  const data = await queryMessages(fid, filePath, pageSize)
-
-  if (data !== undefined) {
-    // Write the data to the file
-    fs.writeFileSync(filePath, JSON.stringify(data))
-    console.log(`Data updated in ${filePath}`)
-  } else {
-    console.log('There was an error talking to the hub. Please try again later.')
-  }
+  await queryMessages(fid, filePath, pageSize)
 }

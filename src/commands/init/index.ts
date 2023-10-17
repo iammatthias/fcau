@@ -3,14 +3,12 @@ import inquirer from 'inquirer'
 import * as os from 'node:os'
 import path from 'node:path'
 
-import {updateMessagesForUser} from '../../utils/helper-utils.js'
-import {queryApi} from '../../utils/query-utils.js'
+import {queryApi, updateMessagesForUser} from '../../utils/helper-utils.js'
 
 export default class InitCommand extends Command {
   static description = 'Performs an initial archive of a users messages on the Farcaster protocol.'
 
   static flags = {
-    cron: Flags.boolean({char: 'c', description: 'is cron job'}),
     username: Flags.string({char: 'u', description: 'username to query'}),
   }
 
