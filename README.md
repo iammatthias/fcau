@@ -1,51 +1,87 @@
-oclif-hello-world
-=================
+# FCAU - Farcaster Command-line Utility
 
-oclif example Hello World CLI
+## Overview
 
-[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![CircleCI](https://circleci.com/gh/oclif/hello-world/tree/main.svg?style=shield)](https://circleci.com/gh/oclif/hello-world/tree/main)
-[![GitHub license](https://img.shields.io/github/license/oclif/hello-world)](https://github.com/oclif/hello-world/blob/main/LICENSE)
+FCAU (Farcaster Archive Utility) is a CLI tool designed to manage and archive messages on the Farcaster protocol effortlessly.
 
-<!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
-# Usage
-<!-- usage -->
-```sh-session
-$ npm install -g fcau
-$ fcau COMMAND
-running command...
-$ fcau (--version)
-fcau/0.0.1 darwin-arm64 node-v18.13.0
-$ fcau --help [COMMAND]
-USAGE
-  $ fcau COMMAND
-...
-```
-<!-- usagestop -->
-# Commands
-<!-- commands -->
-* [`fcau help [COMMANDS]`](#fcau-help-commands)
+## Features
 
-## `fcau help [COMMANDS]`
+- Query the Farcaster API using a username
+- Save query results to a JSON file
+- Schedule recurring queries via cron jobs
+- Customize cron frequency: every 10 minutes, every hour, or every day
 
-Display help for fcau.
+## Installation
 
-```
-USAGE
-  $ fcau help [COMMANDS] [-n]
+You don't need to install this package globally. Use `npx` to run it without installation:
 
-ARGUMENTS
-  COMMANDS  Command to show help for.
-
-FLAGS
-  -n, --nested-commands  Include all nested commands in the output.
-
-DESCRIPTION
-  Display help for fcau.
+```bash
+npx fcau
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v6.0.3/src/commands/help.ts)_
-<!-- commandsstop -->
+## Usage
+
+### Available Commands and Options
+
+#### Init Command
+
+Perform an initial archive of a user's messages.
+
+```bash
+npx fcau init
+```
+
+**Options:**
+
+- `-u, --username [username]`: Specify the username to query. If not provided, you will be prompted.
+- `-c, --cron`: Schedule a cron job for this query.
+
+#### Schedule Command
+
+Schedule a cron job to regularly update the archive of a user's messages.
+
+```bash
+npx fcau schedule
+```
+
+No options required.
+
+#### Update Command
+
+Update an existing archive of a user's messages.
+
+```bash
+npx fcau update
+```
+
+No options required.
+
+#### Help Command
+
+Display help for any command.
+
+```bash
+npx fcau help [COMMAND]
+```
+
+**Options:**
+
+- `-n, --nested-commands`: Include all nested commands in the output.
+
+### Cron Job Scheduling
+
+If you opt to schedule a cron job using the `init` command, you'll be prompted to specify the frequency:
+
+- Every 10 minutes
+- Every hour
+- Every day
+
+The cron job will be tagged with `fcau` and the username for easy identification.
+
+## Contribution and Issues
+
+Feel free to contribute or report issues via this project's [GitHub repository](#).
+
+## License
+
+MIT
