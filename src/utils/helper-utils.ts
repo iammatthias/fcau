@@ -44,13 +44,11 @@ export async function queryMessages(fid: number, filePath: string, pageSize: num
 
       let newDataAdded = false
       for (const message of newMessages) {
-        if (existingHashes.has(message.hash)) {
-          console.log('Data is up to date. Exiting.')
-          return
+        if (!existingHashes.has(message.hash)) {
+          existingMessages.unshift(message)
+          existingHashes.add(message.hash)
+          newDataAdded = true
         }
-        existingMessages.unshift(message)
-        existingHashes.add(message.hash)
-        newDataAdded = true
       }
 
       if (!newDataAdded) {
