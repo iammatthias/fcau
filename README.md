@@ -14,7 +14,7 @@ FCAU (Farcaster Archive Utility) is a CLI tool designed to manage and archive me
 Use `npx` to quickly run it:
 
 ```bash
-npx fcau
+npx fcau@latest
 ```
 
 ## Usage
@@ -26,7 +26,7 @@ npx fcau
 Perform an initial archive of a user's messages.
 
 ```bash
-npx fcau init
+npx fcau@latest init
 ```
 
 **Options:**
@@ -38,7 +38,7 @@ npx fcau init
 Update an existing archive of a user's messages.
 
 ```bash
-npx fcau update
+npx fcau@latest update
 ```
 
 No options required.
@@ -48,7 +48,7 @@ No options required.
 Display help for any command.
 
 ```bash
-npx fcau help [COMMAND]
+npx fcau@latest help [COMMAND]
 ```
 
 ## Contribution and Issues

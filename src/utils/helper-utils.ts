@@ -40,20 +40,21 @@ export async function queryMessages(fid: number, filePath: string, pageSize: num
     try {
       const response = await fetch(url)
       const data = (await response.json()) as Data
-      let newMessages = data.messages
+      const newMessages = data.messages
 
-      let newDataAdded = false
+      let allMessagesExisting = true
+
       for (const message of newMessages) {
         if (!existingHashes.has(message.hash)) {
-          existingMessages.unshift(message)
+          existingMessages.push(message)
           existingHashes.add(message.hash)
-          newDataAdded = true
+          allMessagesExisting = false
         }
       }
 
-      if (!newDataAdded) {
-        console.log('No new data added. Exiting.')
-        return
+      if (allMessagesExisting) {
+        console.log('All messages in current page exist. Exiting.')
+        break
       }
 
       nextPageToken = data.nextPageToken || null
@@ -63,11 +64,18 @@ export async function queryMessages(fid: number, filePath: string, pageSize: num
     }
   } while (nextPageToken !== null)
 
-  existingMessages.sort((a, b) => b.timestamp - a.timestamp)
+  if (existingMessages.length === 0) {
+    console.log('No new data added. Exiting.')
+    return
+  }
+
+  // Sort by timestamp, most recent first
+  existingMessages.sort((a, b) => b.data.timestamp - a.data.timestamp)
 
   fs.writeFileSync(filePath, JSON.stringify({messages: existingMessages}))
   console.log(`All pages have been processed and results written to ${filePath}`)
 }
+
 /* eslint-enable no-await-in-loop */
 
 export async function selectFile(files: string[]): Promise<string> {
